@@ -1,6 +1,7 @@
 package com.victor.client.api;
 
 
+import com.victor.client.Constant;
 import com.victor.client.handler.HttpClientInboundHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -18,7 +19,7 @@ import java.net.URI;
 public class HttpClient {
     public static void main(String[] args) throws Exception {
         HttpClient client = new HttpClient();
-        client.connect("www.baidu.com", 80);
+        client.connect("localhost", 9090);
     }
 
     public void connect(String host, int port) throws Exception {
@@ -44,7 +45,7 @@ public class HttpClient {
             ChannelFuture f = b.connect(host, port).sync();
 
             URI uri = new URI("http://127.0.0.1:8844");
-            String msg = "Are you ok?";
+            String msg = Constant.LONG_STRING;
             DefaultFullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET,
                     uri.toASCIIString(), Unpooled.wrappedBuffer(msg.getBytes("UTF-8")));
 
