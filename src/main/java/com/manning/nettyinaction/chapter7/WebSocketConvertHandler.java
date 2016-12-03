@@ -4,13 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.ContinuationWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.*;
 
 import java.util.List;
 
@@ -71,17 +65,8 @@ public class WebSocketConvertHandler extends MessageToMessageCodec<WebSocketFram
     }
 
     public static final class WebSocketFrame {
-        public enum FrameType {
-            BINARY,
-            CLOSE,
-            PING,
-            PONG,
-            TEXT,
-            CONTINUATION
-        }
-
         private final FrameType type;
-        private final ByteBuf data;
+        private final ByteBuf   data;
         public WebSocketFrame(FrameType type, ByteBuf data) {
             this.type = type;
             this.data = data;
@@ -93,6 +78,15 @@ public class WebSocketConvertHandler extends MessageToMessageCodec<WebSocketFram
 
         public ByteBuf getData() {
             return data;
+        }
+
+        public enum FrameType {
+            BINARY,
+            CLOSE,
+            PING,
+            PONG,
+            TEXT,
+            CONTINUATION
         }
     }
 }

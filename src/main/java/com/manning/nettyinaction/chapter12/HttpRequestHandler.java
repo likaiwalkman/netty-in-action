@@ -1,16 +1,7 @@
 package com.manning.nettyinaction.chapter12;
 
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
+import io.netty.channel.*;
+import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
 /**
@@ -18,6 +9,11 @@ import io.netty.util.CharsetUtil;
  */
 @ChannelHandler.Sharable
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+    private static void send100Continue(ChannelHandlerContext ctx) {
+        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.CONTINUE);
+        ctx.writeAndFlush(response);
+    }
+
     @Override
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         if (HttpHeaders.is100ContinueExpected(request)) {
@@ -43,11 +39,6 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
 
     protected String getContent() {
         return "This content is transmitted via HTTP\r\n";
-    }
-
-    private static void send100Continue(ChannelHandlerContext ctx) {
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.CONTINUE);
-        ctx.writeAndFlush(response);
     }
 
     @Override

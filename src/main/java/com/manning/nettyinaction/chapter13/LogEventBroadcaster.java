@@ -16,8 +16,8 @@ import java.net.InetSocketAddress;
  * @author <a href="mailto:norman.maurer@googlemail.com">Norman Maurer</a>
  */
 public class LogEventBroadcaster {
-    private final Bootstrap bootstrap;
-    private final File file;
+    private final Bootstrap      bootstrap;
+    private final File           file;
     private final EventLoopGroup group;
 
     public LogEventBroadcaster(InetSocketAddress address, File file) {
@@ -31,11 +31,25 @@ public class LogEventBroadcaster {
         this.file = file;
     }
 
+    public static void main(String[] args) throws Exception {
+        if (args.length != 2) {
+            throw new IllegalArgumentException();
+        }
+
+        LogEventBroadcaster broadcaster = new LogEventBroadcaster(new InetSocketAddress("255.255.255.255",
+                Integer.parseInt(args[0])), new File(args[1]));
+        try {
+            broadcaster.run();
+        } finally {
+            broadcaster.stop();
+        }
+    }
+
     public void run() throws IOException {
         Channel ch = bootstrap.bind(0).syncUninterruptibly().channel();
         System.out.println("LogEventBroadcaster running");
         long pointer = 0;
-        for (;;) {
+        for (; ; ) {
             long len = file.length();
             if (len < pointer) {
                 // file was reset
@@ -62,19 +76,5 @@ public class LogEventBroadcaster {
 
     public void stop() {
         group.shutdownGracefully();
-    }
-
-    public static void main(String[] args) throws Exception {
-        if (args.length != 2) {
-            throw new IllegalArgumentException();
-        }
-
-        LogEventBroadcaster broadcaster = new LogEventBroadcaster(new InetSocketAddress("255.255.255.255",
-                Integer.parseInt(args[0])), new File(args[1]));
-        try {
-            broadcaster.run();
-        } finally {
-            broadcaster.stop();
-        }
     }
 }

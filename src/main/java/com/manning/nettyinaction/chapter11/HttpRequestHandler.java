@@ -1,19 +1,7 @@
 package com.manning.nettyinaction.chapter11;
 
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.DefaultFileRegion;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.DefaultHttpResponse;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
-import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.channel.*;
+import io.netty.handler.codec.http.*;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedNioFile;
 
@@ -26,8 +14,7 @@ import java.net.URL;
  * @author <a href="mailto:norman.maurer@googlemail.com">Norman Maurer</a>
  */
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
-    private final String wsUri;
-    private static final File INDEX;
+    private static final File   INDEX;
 
     static {
         URL location = HttpRequestHandler.class.getProtectionDomain().getCodeSource().getLocation();
@@ -40,8 +27,15 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
         }
     }
 
+    private final        String wsUri;
+
     public HttpRequestHandler(String wsUri) {
         this.wsUri = wsUri;
+    }
+
+    private static void send100Continue(ChannelHandlerContext ctx) {
+        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.CONTINUE);
+        ctx.writeAndFlush(response);
     }
 
     @Override
@@ -76,11 +70,6 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
                 future.addListener(ChannelFutureListener.CLOSE);
             }
         }
-    }
-
-    private static void send100Continue(ChannelHandlerContext ctx) {
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.CONTINUE);
-        ctx.writeAndFlush(response);
     }
 
     @Override

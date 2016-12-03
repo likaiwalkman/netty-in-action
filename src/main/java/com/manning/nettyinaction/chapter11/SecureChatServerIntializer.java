@@ -5,7 +5,6 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslHandler;
 
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
 /**

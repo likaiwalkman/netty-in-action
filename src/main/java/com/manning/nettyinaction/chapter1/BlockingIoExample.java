@@ -17,7 +17,7 @@ public abstract class BlockingIoExample {
 
     public void serve(int portNumber) throws IOException {
         ServerSocket serverSocket = new ServerSocket(portNumber);
-        Socket clientSocket = serverSocket.accept();
+        Socket       clientSocket = serverSocket.accept();
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(clientSocket.getInputStream()));
         PrintWriter out =

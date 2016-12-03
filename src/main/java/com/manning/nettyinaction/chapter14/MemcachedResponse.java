@@ -2,13 +2,13 @@ package com.manning.nettyinaction.chapter14;
 
 
 public class MemcachedResponse {
-    private final byte magic;
-    private final byte opCode;
-    private final short status;
-    private final int id;
-    private final long cas;
-    private final int flags;
-    private final int expires;
+    private final byte   magic;
+    private final byte   opCode;
+    private final short  status;
+    private final int    id;
+    private final long   cas;
+    private final int    flags;
+    private final int    expires;
     private final String key;
     private final String data;
 

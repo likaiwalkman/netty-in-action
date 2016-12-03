@@ -9,9 +9,9 @@ public final class LogEvent {
     public static final byte SEPARATOR = (byte) ':';
 
     private final InetSocketAddress source;
-    private final String logfile;
-    private final String msg;
-    private final long received;
+    private final String            logfile;
+    private final String            msg;
+    private final long              received;
 
     public LogEvent(String logfile, String msg) {
         this(null, -1, logfile, msg);

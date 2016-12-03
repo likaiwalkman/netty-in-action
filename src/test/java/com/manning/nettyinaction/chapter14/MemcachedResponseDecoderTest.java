@@ -10,17 +10,29 @@ import org.junit.Test;
 
 public class MemcachedResponseDecoderTest {
 
+    private static void assertResponse(MemcachedResponse response, byte magic, byte opCode, short status, int expires, int flags, int id, long cas, byte[] key, byte[] body) {
+        Assert.assertEquals(magic, response.magic());
+        Assert.assertArrayEquals(key, response.key().getBytes(CharsetUtil.US_ASCII));
+        Assert.assertEquals(opCode, response.opCode());
+        Assert.assertEquals(status, response.status());
+        Assert.assertEquals(cas, response.cas());
+        Assert.assertEquals(expires, response.expires());
+        Assert.assertEquals(flags, response.flags());
+        Assert.assertArrayEquals(body, response.data().getBytes(CharsetUtil.US_ASCII));
+        Assert.assertEquals(id, response.id());
+    }
+
     @Test
     public void testMemcachedResponseDecoder() {
         EmbeddedChannel channel = new EmbeddedChannel(new MemcachedResponseDecoder());
 
-        byte magic = 1;
+        byte magic  = 1;
         byte opCode = Opcode.SET;
 
-        byte[] key = "Key1".getBytes(CharsetUtil.US_ASCII);
+        byte[] key  = "Key1".getBytes(CharsetUtil.US_ASCII);
         byte[] body = "Value".getBytes(CharsetUtil.US_ASCII);
-        int id = (int) System.currentTimeMillis();
-        long cas = System.currentTimeMillis();
+        int    id   = (int) System.currentTimeMillis();
+        long   cas  = System.currentTimeMillis();
 
         ByteBuf buffer = Unpooled.buffer();
         buffer.writeByte(magic);
@@ -34,7 +46,7 @@ public class MemcachedResponseDecoderTest {
         buffer.writeLong(cas);
         buffer.writeBytes(key);
         buffer.writeBytes(body);
-        
+
         Assert.assertTrue(channel.writeInbound(buffer));
 
         MemcachedResponse response = (MemcachedResponse) channel.readInbound();
@@ -45,13 +57,13 @@ public class MemcachedResponseDecoderTest {
     public void testMemcachedResponseDecoderFragments() {
         EmbeddedChannel channel = new EmbeddedChannel(new MemcachedResponseDecoder());
 
-        byte magic = 1;
+        byte magic  = 1;
         byte opCode = Opcode.SET;
 
-        byte[] key = "Key1".getBytes(CharsetUtil.US_ASCII);
+        byte[] key  = "Key1".getBytes(CharsetUtil.US_ASCII);
         byte[] body = "Value".getBytes(CharsetUtil.US_ASCII);
-        int id = (int) System.currentTimeMillis();
-        long cas = System.currentTimeMillis();
+        int    id   = (int) System.currentTimeMillis();
+        long   cas  = System.currentTimeMillis();
 
         ByteBuf buffer = Unpooled.buffer();
         buffer.writeByte(magic);
@@ -76,17 +88,5 @@ public class MemcachedResponseDecoderTest {
 
         MemcachedResponse response = (MemcachedResponse) channel.readInbound();
         assertResponse(response, magic, opCode, Status.KEY_EXISTS, 0, 0, id, cas, key, body);
-    }
-
-    private static void assertResponse(MemcachedResponse response, byte magic, byte opCode, short status, int expires, int flags, int id, long cas, byte[] key, byte[] body) {
-        Assert.assertEquals(magic, response.magic());
-        Assert.assertArrayEquals(key, response.key().getBytes(CharsetUtil.US_ASCII));
-        Assert.assertEquals(opCode, response.opCode());
-        Assert.assertEquals(status, response.status());
-        Assert.assertEquals(cas, response.cas());
-        Assert.assertEquals(expires, response.expires());
-        Assert.assertEquals(flags, response.flags());
-        Assert.assertArrayEquals(body, response.data().getBytes(CharsetUtil.US_ASCII));
-        Assert.assertEquals(id, response.id());
     }
 }

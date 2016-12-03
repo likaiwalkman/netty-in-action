@@ -22,7 +22,7 @@ public class SpdyChannelInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        SSLEngine engine = context.newEngine(ch.alloc());
+        SSLEngine       engine   = context.newEngine(ch.alloc());
         engine.setUseClientMode(false);
 
         NextProtoNego.put(engine, new DefaultServerProvider());

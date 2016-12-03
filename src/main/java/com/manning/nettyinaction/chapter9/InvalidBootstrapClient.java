@@ -15,6 +15,11 @@ import java.net.InetSocketAddress;
  */
 public class InvalidBootstrapClient {
 
+    public static void main(String[] args) {
+        InvalidBootstrapClient client = new InvalidBootstrapClient();
+        client.bootstrap();
+    }
+
     public void bootstrap() {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(new NioEventLoopGroup()).channel(OioSocketChannel.class)
@@ -26,10 +31,5 @@ public class InvalidBootstrapClient {
                 });
         ChannelFuture future = bootstrap.connect(new InetSocketAddress("www.manning.com", 80));
         future.syncUninterruptibly();
-    }
-
-    public static void main(String[] args) {
-        InvalidBootstrapClient client = new InvalidBootstrapClient();
-        client.bootstrap();
     }
 }

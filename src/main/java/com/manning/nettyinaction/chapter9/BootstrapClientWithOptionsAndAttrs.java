@@ -24,7 +24,7 @@ public class BootstrapClientWithOptionsAndAttrs {
                 .handler(new SimpleChannelInboundHandler<ByteBuf>() {
                     @Override
                     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-                       Integer idValue = ctx.channel().attr(id).get();
+                        Integer idValue = ctx.channel().attr(id).get();
                         // do something  with the idValue
                     }
 
