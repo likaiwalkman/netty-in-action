@@ -4,26 +4,27 @@ package com.victor.client.api;
 import com.victor.client.Constant;
 import com.victor.client.handler.HttpClientInboundHandler;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.http.*;
 
 import java.net.URI;
+import java.util.List;
 
 public class HttpClient {
     public static void main(String[] args) throws Exception {
         HttpClient client = new HttpClient();
-        client.connect("localhost", 9090);
+        client.connect("localhost", 8080);
     }
 
     public void connect(String host, int port) throws Exception {
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup();   //这个是用于serversocketchannel的eventloop
+        EventLoopGroup workerGroup = new NioEventLoopGroup(5);    //这个是用于处理accept到的channel
 
         try {
             Bootstrap b = new Bootstrap();
@@ -35,6 +36,7 @@ public class HttpClient {
                 public void initChannel(SocketChannel ch) throws Exception {
                     // 客户端接收到的是httpResponse响应，所以要使用HttpResponseDecoder进行解码
                     ch.pipeline().addLast(new HttpResponseDecoder());
+
                     // 客户端发送的是httprequest，所以要使用HttpRequestEncoder进行编码
                     ch.pipeline().addLast(new HttpRequestEncoder());
                     ch.pipeline().addLast(new HttpClientInboundHandler());
