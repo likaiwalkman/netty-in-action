@@ -9,7 +9,6 @@ import io.netty.handler.codec.http.HttpServerCodec;
 
 
 /**
- *
  * @author <a href="mailto:norman.maurer@googlemail.com">Norman Maurer</a>
  */
 public class HttpAggregatorInitializer extends ChannelInitializer<Channel> {

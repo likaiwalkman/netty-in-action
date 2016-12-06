@@ -13,9 +13,9 @@ public class StringBinaryConvertTest {
             bytes[i] = (byte) i;
         }
         System.out.println(Arrays.toString(bytes));
-        String s = new String(bytes);
-        byte[] sBytes = s.getBytes();
-        boolean b = sBytes.length == num;
+        String  s      = new String(bytes);
+        byte[]  sBytes = s.getBytes();
+        boolean b      = sBytes.length == num;
         for (int i = 0; i < sBytes.length; i++) {
             boolean r = sBytes[i] == i;
             b &= r;

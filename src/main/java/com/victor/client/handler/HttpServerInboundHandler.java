@@ -31,7 +31,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
         }
         if (msg instanceof HttpContent) {
             HttpContent content = (HttpContent) msg;
-            ByteBuf buf = content.content();
+            ByteBuf     buf     = content.content();
             System.out.println(buf.toString(io.netty.util.CharsetUtil.UTF_8));
             buf.release();
 

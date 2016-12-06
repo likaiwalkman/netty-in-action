@@ -1,6 +1,6 @@
 /**
  * Contains code examples for chapter 1 of <i>Netty in Action</i>
- *
+ * <p>
  * Listing 1.1:     CallbackFetcherExample.java
  * Listing 1.2:     FutureExample.java
  * Listing 1.3:     FutureFetcherExample.java

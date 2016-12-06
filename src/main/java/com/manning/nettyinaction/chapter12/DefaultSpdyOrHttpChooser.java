@@ -18,7 +18,7 @@ public class DefaultSpdyOrHttpChooser extends SpdyOrHttpChooser {
     @Override
     protected SelectedProtocol getProtocol(SSLEngine engine) {
         DefaultServerProvider provider = (DefaultServerProvider) NextProtoNego.get(engine);
-        String protocol = provider.getSelectedProtocol();
+        String                protocol = provider.getSelectedProtocol();
         if (protocol == null) {
             return SelectedProtocol.UNKNOWN;
         }

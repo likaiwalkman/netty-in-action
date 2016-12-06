@@ -12,7 +12,7 @@ public class RegisterSocket {
     public void register(java.nio.channels.SocketChannel socket, EventLoopGroup egroup) {
         java.nio.channels.SocketChannel mySocket = socket;
 
-        SocketChannel ch = new NioSocketChannel(mySocket);
+        SocketChannel  ch    = new NioSocketChannel(mySocket);
         EventLoopGroup group = egroup;
         group.register(ch);
 

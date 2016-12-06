@@ -1,6 +1,6 @@
 /**
  * Contains code examples for chapter 9 of <i>Netty in Action</i>
- *
+ * <p>
  * Listing 9.1:     BootstrapClient.java
  * Listing 9.2:     InvalidBootstrapClient.java
  * Listing 9.4:     BootstrapServer.java

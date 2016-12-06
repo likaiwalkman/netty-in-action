@@ -1,11 +1,7 @@
 package com.manning.nettyinaction.chapter8;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 
 /**
@@ -45,12 +41,12 @@ public class CmdHandlerInitializer extends ChannelInitializer<Channel> {
 
         @Override
         protected Object decode(ChannelHandlerContext ctx, ByteBuf buffer) throws Exception {
-            ByteBuf frame =  (ByteBuf) super.decode(ctx, buffer);
+            ByteBuf frame = (ByteBuf) super.decode(ctx, buffer);
             if (frame == null) {
                 return null;
             }
             int index = frame.indexOf(frame.readerIndex(), frame.writerIndex(), (byte) ' ');
-            return new Cmd(frame.slice(frame.readerIndex(), index), frame.slice(index +1, frame.writerIndex()));
+            return new Cmd(frame.slice(frame.readerIndex(), index), frame.slice(index + 1, frame.writerIndex()));
         }
     }
 

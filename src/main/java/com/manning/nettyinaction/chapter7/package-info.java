@@ -1,6 +1,6 @@
 /**
  * Contains code examples for chapter 7 of <i>Netty in Action</i>
- *
+ * <p>
  * Listing 7.1:     ToIntegerDecoder.java
  * Listing 7.2:     ToIntegerDecoder2.java
  * Listing 7.3:     IntegerToStringDecoder.java

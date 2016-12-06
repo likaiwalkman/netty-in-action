@@ -12,8 +12,8 @@ import io.netty.util.concurrent.Future;
 public class BootstrapShutdownGracefully {
 
     public void shutdownGracefully() {
-        EventLoopGroup group = new NioEventLoopGroup();
-        Bootstrap bootstrap = new Bootstrap();
+        EventLoopGroup group     = new NioEventLoopGroup();
+        Bootstrap      bootstrap = new Bootstrap();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class);
         // ...

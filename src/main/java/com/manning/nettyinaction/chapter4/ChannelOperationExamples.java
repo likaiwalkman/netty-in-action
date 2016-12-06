@@ -21,9 +21,9 @@ public class ChannelOperationExamples {
      * Listing 4.5
      */
     public static void writingToChannel() {
-        Channel channel = null; // Get the channel reference from somewhere
-        ByteBuf buf = Unpooled.copiedBuffer("your data", CharsetUtil.UTF_8);
-        ChannelFuture cf = channel.writeAndFlush(buf);
+        Channel       channel = null; // Get the channel reference from somewhere
+        ByteBuf       buf     = Unpooled.copiedBuffer("your data", CharsetUtil.UTF_8);
+        ChannelFuture cf      = channel.writeAndFlush(buf);
 
         cf.addListener(new ChannelFutureListener() {
             @Override

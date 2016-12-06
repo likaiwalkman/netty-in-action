@@ -5,7 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
- *
  * Listing 6.10 of <i>Netty in Action</i>
  *
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>

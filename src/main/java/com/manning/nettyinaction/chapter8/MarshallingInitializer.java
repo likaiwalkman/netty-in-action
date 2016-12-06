@@ -1,10 +1,6 @@
 package com.manning.nettyinaction.chapter8;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.marshalling.MarshallerProvider;
 import io.netty.handler.codec.marshalling.MarshallingDecoder;
 import io.netty.handler.codec.marshalling.MarshallingEncoder;
@@ -17,7 +13,7 @@ import java.io.Serializable;
  */
 public class MarshallingInitializer extends ChannelInitializer<Channel> {
 
-    private final MarshallerProvider marshallerProvider;
+    private final MarshallerProvider   marshallerProvider;
     private final UnmarshallerProvider unmarshallerProvider;
 
     public MarshallingInitializer(UnmarshallerProvider unmarshallerProvider,
@@ -25,6 +21,7 @@ public class MarshallingInitializer extends ChannelInitializer<Channel> {
         this.marshallerProvider = marshallerProvider;
         this.unmarshallerProvider = unmarshallerProvider;
     }
+
     @Override
     protected void initChannel(Channel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();

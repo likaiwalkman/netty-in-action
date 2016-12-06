@@ -1,6 +1,6 @@
 /**
  * Contains code examples for chapter 2 of <i>Netty in Action</i>
- *
+ * <p>
  * Listing 2.1:     EchoServerHandler.java
  * Listing 2.2:     EchoServer.java
  * Listing 2.3:     EchoClientHandler.java

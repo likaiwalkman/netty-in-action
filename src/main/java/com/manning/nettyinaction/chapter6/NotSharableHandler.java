@@ -9,7 +9,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
- *
  * Listing 6.7 of <i>Netty in Action</i>
  *
  * @author <a href="mailto:nmaurer@redhat.com">Norman Maurer</a>
@@ -23,7 +22,7 @@ public class NotSharableHandler extends ChannelInboundHandlerAdapter {
         count++;
 
         System.out.println("inboundBufferUpdated(...) called the "
-        + count + " time");
+                + count + " time");
         ctx.fireChannelRead(msg);
     }
 

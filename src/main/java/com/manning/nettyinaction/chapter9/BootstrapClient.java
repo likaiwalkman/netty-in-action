@@ -16,6 +16,11 @@ import java.net.InetSocketAddress;
  */
 public class BootstrapClient {
 
+    public static void main(String[] args) {
+        BootstrapClient client = new BootstrapClient();
+        client.bootstrap();
+    }
+
     public void bootstrap() {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(new NioEventLoopGroup()).channel(NioSocketChannel.class)
@@ -37,10 +42,5 @@ public class BootstrapClient {
                 }
             }
         });
-    }
-
-    public static void main(String[] args) {
-        BootstrapClient client = new BootstrapClient();
-        client.bootstrap();
     }
 }

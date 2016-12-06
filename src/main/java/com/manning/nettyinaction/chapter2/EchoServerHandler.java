@@ -1,7 +1,6 @@
 package com.manning.nettyinaction.chapter2;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -20,7 +19,7 @@ public class EchoServerHandler extends
 
     @Override
     public void channelRead(ChannelHandlerContext ctx,
-        Object msg) {
+                            Object msg) {
         ByteBuf in = (ByteBuf) msg;
         System.out.println("Server received: " + in.toString(CharsetUtil.UTF_8));
         ctx.write(in);
@@ -33,7 +32,7 @@ public class EchoServerHandler extends
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
-        Throwable cause) {
+                                Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }

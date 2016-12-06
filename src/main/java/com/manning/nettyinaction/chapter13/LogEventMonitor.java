@@ -1,11 +1,7 @@
 package com.manning.nettyinaction.chapter13;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 
@@ -16,8 +12,9 @@ import java.net.InetSocketAddress;
  */
 public class LogEventMonitor {
 
-    private final Bootstrap bootstrap;
+    private final Bootstrap      bootstrap;
     private final EventLoopGroup group;
+
     public LogEventMonitor(InetSocketAddress address) {
         group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
@@ -35,14 +32,6 @@ public class LogEventMonitor {
 
     }
 
-    public Channel bind() {
-        return bootstrap.bind().syncUninterruptibly().channel();
-    }
-
-    public void stop() {
-        group.shutdownGracefully();
-    }
-
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             throw new IllegalArgumentException("Usage: LogEventMonitor <port>");
@@ -56,5 +45,13 @@ public class LogEventMonitor {
         } finally {
             monitor.stop();
         }
+    }
+
+    public Channel bind() {
+        return bootstrap.bind().syncUninterruptibly().channel();
+    }
+
+    public void stop() {
+        group.shutdownGracefully();
     }
 }

@@ -9,20 +9,15 @@ import java.util.List;
 
 
 public class MemcachedResponseDecoder extends ByteToMessageDecoder {
-    private enum State {
-        Header,
-        Body
-    }
-
     private State state = State.Header;
-    private int totalBodySize;
-    private byte magic;
-    private byte opCode;
+    private int   totalBodySize;
+    private byte  magic;
+    private byte  opCode;
     private short keyLength;
-    private byte extraLength;
+    private byte  extraLength;
     private short status;
-    private int id;
-    private long cas;
+    private int   id;
+    private long  cas;
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in,
@@ -80,6 +75,11 @@ public class MemcachedResponseDecoder extends ByteToMessageDecoder {
                 state = State.Header;
         }
 
+    }
+
+    private enum State {
+        Header,
+        Body
     }
 }
 
