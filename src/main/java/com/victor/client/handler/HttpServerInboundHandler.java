@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
-
+@Deprecated
 public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 
     private static Log log = LogFactory.getLog(HttpServerInboundHandler.class);
