@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
-
 public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
     static ExecutorService executorService = Executors.newFixedThreadPool(10);
     private static Log  log = LogFactory.getLog(HttpServerInboundHandler.class);
