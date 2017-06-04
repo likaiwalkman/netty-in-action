@@ -88,7 +88,7 @@ public class HttpClientToSinglePort {
             });
 
         } catch (Throwable e) {
-            System.out.println(e);
+            System.out.println("unknown:"+e);
         }finally {
             //workerGroup.shutdownGracefully();
         }
