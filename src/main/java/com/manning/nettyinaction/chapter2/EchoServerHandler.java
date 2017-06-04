@@ -23,6 +23,7 @@ public class EchoServerHandler extends
         ByteBuf in = (ByteBuf) msg;
         System.out.println("Server received: " + in.toString(CharsetUtil.UTF_8));
         ctx.write(in);
+        throw new RuntimeException("error");
     }
 
     @Override

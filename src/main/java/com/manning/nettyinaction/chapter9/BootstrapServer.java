@@ -37,4 +37,8 @@ public class BootstrapServer {
             }
         });
     }
+
+    public static void main(String[] args) {
+        new BootstrapServer().bootstrap();
+    }
 }

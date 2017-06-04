@@ -18,7 +18,11 @@ public class EchoClientHandler extends
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8));
+        StringBuilder builder = new StringBuilder("");
+        for (int i = 1; i <= 100; i++) {
+            builder.append("NettyRocks"+i);
+        }
+        ctx.writeAndFlush(Unpooled.copiedBuffer(builder.toString(), CharsetUtil.UTF_8));
     }
 
     @Override
