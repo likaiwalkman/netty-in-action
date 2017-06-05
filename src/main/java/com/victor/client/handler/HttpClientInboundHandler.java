@@ -33,6 +33,8 @@ public class HttpClientInboundHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("error");
+        System.out.println(cause);
+        ctx.channel().close();
     }
 
     @Override
