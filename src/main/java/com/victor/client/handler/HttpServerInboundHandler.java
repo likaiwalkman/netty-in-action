@@ -16,6 +16,7 @@ import io.netty.handler.codec.http.*;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
@@ -23,10 +24,12 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
     private static Log  log = LogFactory.getLog(HttpServerInboundHandler.class);
     private HttpRequest request;
 
+    static AtomicLong visitCnt = new AtomicLong();
     @Override
     public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("visit: " + visitCnt.incrementAndGet());
         if (msg instanceof FullHttpMessage) {
-            System.out.println(new Date()+"receive a http request");
+            //System.out.println(new Date()+"receive a http request");
             ReferenceCountUtil.release(msg);
 
             final ChannelPromise channelPromise = ctx.newPromise();

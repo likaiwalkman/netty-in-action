@@ -10,8 +10,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.*;
-import io.netty.handler.timeout.IdleStateHandler;
+//import io.netty.handler.timeout.IdleStateHandler;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -21,13 +22,13 @@ import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+//import java.util.concurrent.TimeUnit;
 
 public class HttpClientToSinglePort {
     private Bootstrap b;
 
     public HttpClientToSinglePort() {
-        EventLoopGroup workerGroup = new NioEventLoopGroup(2);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(5);
         Bootstrap      b           = new Bootstrap();
         b.group(workerGroup);
         b.channel(NioSocketChannel.class);
@@ -49,15 +50,17 @@ public class HttpClientToSinglePort {
     }
 
     public static void main(String[] args) throws Exception {
+        System.err.println("start@"+System.currentTimeMillis());
         String path;
         //  "/Users/victor/git/netty-in-action/out.o"
+        args = new String[]{"/home/victor/Desktop/client.log"};
         if (args == null || args.length < 1){
             System.err.println("please specify your stdout file path");
             return;
         }else {
             path = args[0];
         }
-        System.setOut(new PrintStream(new FileOutputStream(path)));
+        System.setOut(new PrintStream(new FileOutputStream(new File(path))));
         final HttpClientToSinglePort client = new HttpClientToSinglePort();
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);

@@ -9,8 +9,11 @@ import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.util.CharsetUtil;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class HttpClientInboundHandler extends ChannelInboundHandlerAdapter {
 
+    static AtomicLong visitCnt = new AtomicLong();
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof HttpResponse) {
@@ -23,7 +26,7 @@ public class HttpClientInboundHandler extends ChannelInboundHandlerAdapter {
                 ByteBuf     buf     = content.content();
                 System.out.println(buf.toString(io.netty.util.CharsetUtil.UTF_8));
                 String s = buf.toString(CharsetUtil.UTF_8);
-                System.out.println(s);
+                System.out.println(s+"@" + System.currentTimeMillis());
                 buf.release();
                 ctx.channel().close();
             }
