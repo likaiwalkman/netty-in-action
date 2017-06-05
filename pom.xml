@@ -208,5 +208,45 @@
                 <logfile>/var/log/messages</logfile>
             </properties>
         </profile>
+        <profile>
+            <id>netty-server</id>
+            <build>
+                <plugins>
+                   <plugin>
+                       <artifactId>maven-assembly-plugin</artifactId>
+                       <configuration>
+                           <archive>
+                               <manifest>
+                                   <mainClass>com.victor.client.api.singleport.HttpServerBoundSinglePort</mainClass>
+                               </manifest>
+                           </archive>
+                           <descriptorRefs>
+                               <descriptorRef>jar-with-dependencies</descriptorRef>
+                           </descriptorRefs>
+                       </configuration>
+                   </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>netty-client</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.victor.client.api.singleport.HttpClientToSinglePort</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>

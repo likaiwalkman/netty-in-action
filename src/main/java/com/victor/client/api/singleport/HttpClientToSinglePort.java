@@ -49,7 +49,15 @@ public class HttpClientToSinglePort {
     }
 
     public static void main(String[] args) throws Exception {
-        System.setOut(new PrintStream(new FileOutputStream("/Users/victor/git/netty-in-action/out.o")));
+        String path;
+        //  "/Users/victor/git/netty-in-action/out.o"
+        if (args == null || args.length < 1){
+            System.err.println("please specify your stdout file path");
+            return;
+        }else {
+            path = args[0];
+        }
+        System.setOut(new PrintStream(new FileOutputStream(path)));
         final HttpClientToSinglePort client = new HttpClientToSinglePort();
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
