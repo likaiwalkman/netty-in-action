@@ -42,7 +42,12 @@ public class HttpServerInboundHandlerWithoutTimer extends ChannelInboundHandlerA
             response.headers().add("Content-Type", "text/html");
             response.headers().add("Content-Length", 2);
             response.headers().add("Connection", "closed");
-            ctx.channel().writeAndFlush(response);
+            ctx.channel().writeAndFlush(response).addListener(new GenericFutureListener<Future<? super Void>>() {
+                @Override
+                public void operationComplete(Future<? super Void> future) throws Exception {
+                    ctx.channel().close();
+                }
+            });
         }
     }
 

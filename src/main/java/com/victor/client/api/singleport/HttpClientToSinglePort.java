@@ -28,9 +28,11 @@ public class HttpClientToSinglePort {
     private Bootstrap b;
 
     public HttpClientToSinglePort() {
-        EventLoopGroup workerGroup = new NioEventLoopGroup(5);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(15);
         Bootstrap      b           = new Bootstrap();
         b.group(workerGroup);
+        b.option(ChannelOption.SO_KEEPALIVE, true);
+        //b.option(ChannelOption.SO_TIMEOUT, 5);
         b.channel(NioSocketChannel.class);
         b.handler(new ChannelInitializer<SocketChannel>() {
             @Override
@@ -63,20 +65,37 @@ public class HttpClientToSinglePort {
         System.setOut(new PrintStream(new FileOutputStream(new File(path))));
         final HttpClientToSinglePort client = new HttpClientToSinglePort();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
         final int port = 8080;
         System.err.println(new Date());
-        for (int i = 0; i < 10000; i++) {
-            executorService.submit(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        client.connect("localhost", port, "http://localhost:"+port);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        int sleep = 2000;
+        int round = 1;
+        while(true){
+            System.err.println("round "+round+" begin");
+            for (int i = 0; i < 3000; i++) {
+                Thread.sleep(0);
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            client.connect("localhost", port, "http://localhost:"+port);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+            }
+
+            if (sleep > 1000)
+                sleep = sleep - 1000;
+
+            Thread.sleep(sleep);
+
+            if (round == 100) {
+                break;
+            }
+            round++;
+            //break;
         }
     }
 
