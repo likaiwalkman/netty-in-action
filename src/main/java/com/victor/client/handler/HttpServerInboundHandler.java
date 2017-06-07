@@ -1,9 +1,12 @@
 package com.victor.client.handler;
 
+import com.victor.client.api.singleport.WrapperListener;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.FutureListener;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +17,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
@@ -33,10 +38,21 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
             ReferenceCountUtil.release(msg);
 
             final ChannelPromise channelPromise = ctx.newPromise();
+
+            final WrapperListener listener = new WrapperListener();
+            listener.setCtx(ctx);
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        DefaultFullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
+                                HttpResponseStatus.OK,
+                                Unpooled.wrappedBuffer("Ok".getBytes()));
+
+                        response.headers().add("Content-Type", "text/html");
+                        response.headers().add("Content-Length", 2);
+                        response.headers().add("Connection", "closed");
+                        listener.setRESULT(response);
                         //Thread.sleep(5000);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -44,20 +60,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
                     channelPromise.setSuccess();
                 }
             });
-            channelPromise.addListener(new GenericFutureListener<Future<? super Void>>() {
-                @Override
-                public void operationComplete(Future<? super Void> future) throws Exception {
-                    System.out.println(new Date()+":channel promise complete");
-                    DefaultFullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
-                            HttpResponseStatus.OK,
-                            Unpooled.wrappedBuffer("Ok".getBytes()));
-
-                    response.headers().add("Content-Type", "text/html");
-                    response.headers().add("Content-Length", 2);
-                    response.headers().add("Connection", "closed");
-                    ctx.channel().writeAndFlush(response);
-                }
-            });
+            channelPromise.addListener(listener);
         }
     }
 

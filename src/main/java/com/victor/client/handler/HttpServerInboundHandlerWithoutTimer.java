@@ -26,15 +26,15 @@ public class HttpServerInboundHandlerWithoutTimer extends ChannelInboundHandlerA
     private static Log  log = LogFactory.getLog(HttpServerInboundHandlerWithoutTimer.class);
     private HttpRequest request;
 
-    static AtomicLong visitCnt = new AtomicLong();
+    //static AtomicLong visitCnt = new AtomicLong();
     @Override
     public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("visit: " + visitCnt.incrementAndGet());
+        //System.out.println("visit: " + visitCnt.incrementAndGet());
         if (msg instanceof FullHttpMessage) {
             //System.out.println(new Date()+"receive a http request");
             ReferenceCountUtil.release(msg);
 
-            System.out.println(new Date()+":channel promise complete");
+            //System.out.println(new Date()+":channel promise complete");
             DefaultFullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
                     HttpResponseStatus.OK,
                     Unpooled.wrappedBuffer("Ok".getBytes()));

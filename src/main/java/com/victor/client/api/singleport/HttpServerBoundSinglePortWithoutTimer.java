@@ -19,7 +19,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 public class HttpServerBoundSinglePortWithoutTimer {
 
     public static void main(String[] args) {
-        EventLoopGroup  bossGroup = new NioEventLoopGroup(10);
+        EventLoopGroup  bossGroup = new NioEventLoopGroup(5);
         EventLoopGroup  workerGroup = new NioEventLoopGroup(20);
         ServerBootstrap b           = new ServerBootstrap();
         ServerBootstrap serverBootstrap = b.group(bossGroup, workerGroup)
